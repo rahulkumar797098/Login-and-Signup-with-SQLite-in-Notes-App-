@@ -104,7 +104,7 @@ class _NotesHomeScreenState extends State<NotesHomeScreen> {
                         // Delete
                         IconButton(
                           onPressed: () async {
-                            await AppDataBase.instance.deleteNote(note.id!);
+                            await AppDataBase.instance.deleteNote(note.note_id!);
                             setState(() {
                               _fetchNotes(); // Refresh notes list after deletion
                             });

@@ -1,22 +1,34 @@
-import 'package:flutter/cupertino.dart';
+import 'app_data_base.dart';
 
 class NotesModel {
-  final int? id;
-  final String title;
-  final String description; // Changed 'message' to 'description'
+  int note_id;
+  int user_id ;
+  String title;
+  String description;
 
-  NotesModel({this.id, required this.title, required this.description});
+  NotesModel({
+    required this.note_id,
+    required this.title,
+    required this.user_id ,
+    required this.description,
 
-  NotesModel.fromMap(Map<String, dynamic> res)
-      : id = res['noteID'], // Corrected the key name to match the column
-        title = res['title'],
-        description = res['description']; // Corrected the key name
+  });
+
+  factory NotesModel.fromMap(Map<String, dynamic> map) {
+    return NotesModel(
+      user_id: map[AppDataBase.COLUMN_USER_ID],
+      note_id: map[AppDataBase.COLUMN_NOTE_ID],
+      title: map[AppDataBase.COLUMN_NOTE_TITLE],
+      description: map[AppDataBase.COLUMN_NOTE_DESC],
+
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {
-      "noteID": id, // Corrected the key name to match the column
-      "title": title,
-      "description": description, // Corrected the key name
+      AppDataBase.COLUMN_USER_ID : user_id ,
+      AppDataBase.COLUMN_NOTE_TITLE: title,
+      AppDataBase.COLUMN_NOTE_DESC: description,
     };
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:notes/database/app_data_base.dart';
 import '../database/notesModel.dart';
 
 class EditNotesScreen extends StatefulWidget {
   final NotesModel notes;
-
   const EditNotesScreen({super.key, required this.notes});
 
   @override
@@ -12,22 +12,15 @@ class EditNotesScreen extends StatefulWidget {
 
 class _EditNotesScreenState extends State<EditNotesScreen> {
   late TextEditingController titleController;
-  late TextEditingController messageController;
+  late TextEditingController descriptionController;
 
   @override
   void initState() {
     super.initState();
     // Initialize controllers with existing note data
     titleController = TextEditingController(text: widget.notes.title);
-    messageController = TextEditingController(text: widget.notes.description);
-  }
-
-  @override
-  void dispose() {
-    // Dispose controllers to free up resources
-    titleController.dispose();
-    messageController.dispose();
-    super.dispose();
+    descriptionController =
+        TextEditingController(text: widget.notes.description);
   }
 
   @override
@@ -36,9 +29,7 @@ class _EditNotesScreenState extends State<EditNotesScreen> {
       appBar: AppBar(
         title: const Text(
           "Update Notes",
-          style: TextStyle(
-            fontSize: 30,
-          ),
+          style: TextStyle(fontSize: 25),
         ),
         centerTitle: true,
       ),
@@ -63,7 +54,7 @@ class _EditNotesScreenState extends State<EditNotesScreen> {
             const SizedBox(height: 10),
             Expanded(
               child: TextField(
-                controller: messageController,
+                controller: descriptionController,
                 minLines: 1,
                 maxLines: 10,
                 style: const TextStyle(fontSize: 20),
@@ -90,8 +81,17 @@ class _EditNotesScreenState extends State<EditNotesScreen> {
                   child: const Text("Cancel"),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    // Add logic to update the note here
+                  onPressed: () async {
+                    bool success =
+                        await AppDataBase.instance.updateNote(NotesModel(
+                      note_id: 0,
+                      title: titleController.text,
+                      description: descriptionController.text,
+                      user_id: 0,
+                    ));
+                    if (success) {
+                      Navigator.pop(context);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
