@@ -127,7 +127,6 @@ class AppDataBase {
       var rowEffected = await db.insert(USER_TABLE, newUser.toMap());
       accountCreated = rowEffected > 0;
     }
-
     return accountCreated;
   }
 
@@ -143,23 +142,18 @@ class AppDataBase {
   Future<bool> authenticateUser(String email, String pass) async {
     var db = await getDB();
     var mData = await db.query(USER_TABLE,
-        where: "$COLUMN_USER_EMAIL = ? AND $COLUMN_USER_PASSWORD = ? ",
+        where: "$COLUMN_USER_EMAIL = ? AND $COLUMN_USER_PASSWORD = ? " ,
         whereArgs: [email, pass]);
-
     if(mData.isNotEmpty){
       setUID(UserModel.fromMap(mData[0]).uId);
-
     }
-
     return mData.isNotEmpty;
   }
 
   /// get UUID
  Future<int>getUID() async {
-
     var prefs = await SharedPreferences.getInstance() ;
     return prefs.getInt("UID")! ;
-
  }
 
  /// set UUID

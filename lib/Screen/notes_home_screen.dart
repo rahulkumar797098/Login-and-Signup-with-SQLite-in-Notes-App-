@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/database/notesModel.dart';
 import '../database/app_data_Base.dart';
@@ -23,6 +22,9 @@ class _NotesHomeScreenState extends State<NotesHomeScreen> {
 
   void _fetchNotes() {
     _notesList = AppDataBase.instance.fetchAllNotes();
+    setState(() {
+
+    });
   }
 
   @override
@@ -32,7 +34,7 @@ class _NotesHomeScreenState extends State<NotesHomeScreen> {
         onPressed: () async {
           await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => NotesCreate()),
+            MaterialPageRoute(builder: (context) => const NotesCreate()),
           );
           setState(() {
             _fetchNotes(); // Refresh the notes list after adding a new note
@@ -84,7 +86,7 @@ class _NotesHomeScreenState extends State<NotesHomeScreen> {
                     "assets/icon/folder.png",
                     height: 50,
                   ),
-                  Text("No notes available"),
+                  const Text("No notes available"),
                 ],
               ),
             );
@@ -106,7 +108,7 @@ class _NotesHomeScreenState extends State<NotesHomeScreen> {
                           onPressed: () async {
                             await AppDataBase.instance.deleteNote(note.note_id!);
                             setState(() {
-                              _fetchNotes(); // Refresh notes list after deletion
+                              _fetchNotes();
                             });
                           },
                           icon: const Icon(

@@ -103,7 +103,10 @@ class _NotesCreateState extends State<NotesCreate> {
                       note_id: 0,
                       user_id: 0,
                     );
-                    AppDataBase.instance.addNote(newNote);
+
+                    setState(() {
+                      AppDataBase.instance.addNote(newNote);
+                    });
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
